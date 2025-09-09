@@ -93,9 +93,9 @@ El flujo de datos sigue una secuencia lógica y desacoplada a través de los com
 
 -----
 
-## 🚀 Despliegue Express (5 minutos)
+## 🚀 Despliegue
 
-Sigue estos pasos para levantar toda la infraestructura y el pipeline.
+Para levantar toda la infraestructura.
 
 1.  **Levantar todos los servicios con Docker Compose:**
 
