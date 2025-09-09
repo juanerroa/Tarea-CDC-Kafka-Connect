@@ -229,16 +229,8 @@ docker logs -f tarea-1-kafka-connect-1
 
 -----
 
-## 🔒 Seguridad
-
-  * **No subir credenciales:** Nunca incluyas contraseñas directamente en los archivos de configuración en un repositorio público.
-  * **Usar `.env`:** Almacena credenciales y datos sensibles en un archivo `.env` y referéncialo desde tu `docker-compose.yml`.
-  * **Limitar acceso:** En un entorno de producción, restringe el acceso a la API REST de Kafka Connect a través de un firewall o una red privada.
-
------
-
 ## ⚡ Optimización y Buenas Prácticas
 
-  * **Memoria de Kafka Connect:** Ajusta la memoria de la JVM para Kafka Connect usando la variable de entorno `HEAP_OPTS` para manejar cargas de trabajo más grandes.
-  * **Ajuste del `poll.interval.ms`:** Un intervalo más bajo reduce la latencia pero aumenta la carga en la base de datos de origen. Ajústalo según tus necesidades.
-  * **Monitoreo:** Implementa herramientas de monitoreo para supervisar el rendimiento (throughput, latencia) y configurar alertas para logs de errores.
+  * **Memoria de Kafka Connect:** Se debe ajustar la memoria de la JVM para Kafka Connect usando la variable de entorno `HEAP_OPTS` para manejar cargas de trabajo más grandes.
+  * **Ajustar del `poll.interval.ms`:** Un intervalo más bajo reduce la latencia pero aumenta la carga en la base de datos de origen. Ajústalo según tus necesidades.
+  * **Monitoreo:** Implementar herramientas de monitoreo para supervisar el rendimiento (throughput, latencia) y configurar alertas para logs de errores.
