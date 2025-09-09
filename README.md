@@ -129,88 +129,44 @@ Este conector lee la tabla `Clients` en modo incremental usando la columna `Clie
 
 ```json
 {
-  "name": "sqlserver-source",
+  "name": "sqlserver-source", // Nombre del conector
   "config": {
-    "connector.class": "io.confluent.connect.jdbc.JdbcSourceConnector",
-    "tasks.max": "1",
-    "connection.url": "jdbc:sqlserver://sqlserver:1433;databaseName=BankingCore",
-    "connection.user": "sa",
-    "connection.password": "DummyPass123!",
-    "mode": "incrementing",
-    "incrementing.column.name": "ClientId",
-    "table.whitelist": "Clients",
-    "topic.prefix": "SQLServer_",
-    "poll.interval.ms": 5000
+    "connector.class": "io.confluent.connect.jdbc.JdbcSourceConnector", // Tipo de conector: JDBC Source
+    "tasks.max": "1", // Número máximo de tareas concurrentes
+    "connection.url": "jdbc:sqlserver://sqlserver:1433;databaseName=BankingCore", // URL de conexión a SQL Server
+    "connection.user": "sa", // Usuario de SQL Server
+    "connection.password": "DummyPass123!", // Contraseña de SQL Server
+    "mode": "incrementing", // Tipo de captura: incremental
+    "incrementing.column.name": "ClientId", // Columna que se usa para detectar nuevas filas
+    "table.whitelist": "Clients", // Tabla a monitorear
+    "topic.prefix": "SQLServer_", // Prefijo para los topics generados en Kafka
+    "poll.interval.ms": 5000 // Intervalo de polling en milisegundos
   }
 }
 ```
-Este conector lee de SQL Server y produce mensajes en Kafka.
 
-name: Nombre único que se le da al conector para su gestión.
-
-connector.class: Especifica que se usará el plugin JdbcSourceConnector para leer de una base de datos.
-
-tasks.max: Número de procesos paralelos para la tarea.
-
-connection.url, user, password: Credenciales y dirección de la base de datos de origen.
-
-mode: Estrategia para detectar datos nuevos. 'incrementing' busca filas basándose en una columna numérica que siempre aumenta.
-
-incrementing.column.name: Define la columna (ClientId) que se usará para el modo incrementing.
-
-table.whitelist: Indica la única tabla a monitorear (Clients).
-
-topic.prefix: Prefijo que se usa para nombrar el tema de Kafka. El resultado es SQLServer_Clients.
-
-poll.interval.ms: Frecuencia en milisegundos con la que se consulta la base de datos en busca de cambios.
-
-### Sink Connector – PostgreSQL
-
-Este conector consume los mensajes del topic `SQLServer_Clients` y los inserta en una nueva tabla llamada `clients_new`.
 
 `connectors/postgres-sink.json`
 
 ```json
 {
-  "name": "postgres-sink",
+  "name": "postgres-sink", // Nombre del conector
   "config": {
-    "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
-    "tasks.max": "1",
-    "connection.url": "jdbc:postgresql://postgres-sink:5432/postgres",
-    "connection.user": "sa",
-    "connection.password": "DummyPass123!",
-    "auto.create": "true",
-    "auto.evolve": "true",
-    "delete.enabled": "false",
-    "topics": "SQLServer_Clients",
-    "table.name.format": "clients_new"
+    "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector", // Tipo de conector: JDBC Sink
+    "tasks.max": "1", // Número máximo de tareas concurrentes
+    "connection.url": "jdbc:postgresql://postgres-sink:5432/postgres", // URL de conexión a PostgreSQL
+    "connection.user": "sa", // Usuario de PostgreSQL
+    "connection.password": "DummyPass123!", // Contraseña de PostgreSQL
+    "auto.create": "true", // Crea la tabla automáticamente si no existe
+    "auto.evolve": "true", // Actualiza la tabla si cambian columnas
+    "delete.enabled": "false", // No eliminar filas en el destino
+    "topics": "SQLServer_Clients", // Topic de Kafka a consumir
+    "table.name.format": "clients_new" // Nombre de la tabla destino
   }
 }
 ```
 
-Este conector consume mensajes de Kafka y los escribe en PostgreSQL.
 
-name: Nombre único que se le da al conector.
-
-connector.class: Especifica que se usará el plugin JdbcSinkConnector para escribir en una base de datos.
-
-tasks.max: Número de procesos paralelos para la tarea.
-
-connection.url, user, password: Credenciales y dirección de la base de datos de destino.
-
-auto.create: Si es 'true', permite que el conector cree la tabla de destino si esta no existe.
-
-auto.evolve: Si es 'true', permite que el conector modifique la tabla de destino si el esquema de los datos cambia (ej. añadir una columna).
-
-delete.enabled: Si es 'false', los eventos de borrado en el tema de Kafka son ignorados.
-
-topics: El tema de Kafka del cual se consumirán los mensajes (SQLServer_Clients).
-
-table.name.format: El nombre específico que se le dará a la tabla en la base de datos de destino (clients_new).
-
-### Registrar los Conectores
-
-Ejecutar el script para enviar las configuraciones a la API de Kafka Connect:
 
 ```bash
 ./init-connectors.bash
