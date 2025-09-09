@@ -168,7 +168,7 @@ Este conector consume los mensajes del topic `SQLServer_Clients` y los inserta e
 
 ### Registrar los Conectores
 
-Ejecuta el script para enviar las configuraciones a la API de Kafka Connect:
+Ejecutar el script para enviar las configuraciones a la API de Kafka Connect:
 
 ```bash
 ./init-connectors.bash
@@ -181,26 +181,26 @@ Ejecuta el script para enviar las configuraciones a la API de Kafka Connect:
 Para validar que el pipeline funciona de extremo a extremo:
 
 1.  **Insertar datos de prueba en SQL Server:**
-    Puedes usar un cliente SQL o ejecutar el siguiente comando a través de Docker:
+    Se puede usar un cliente SQL o ejecutar el siguiente comando a través de Docker:
 
     ```sql
     INSERT INTO Clients (FirstName, LastName, Email) VALUES ('Juan', 'Perez', 'juan.perez@example.com');
     ```
 
 2.  **Verificar que los datos llegaron a PostgreSQL:**
-    Conéctate a la base de datos de PostgreSQL y ejecuta una consulta:
+    Conéctarse a la base de datos de PostgreSQL y ejecuta una consulta:
 
     ```sql
     SELECT * FROM clients_new;
     ```
 
-    *Deberías ver el registro de 'Juan Perez' después de unos segundos (según el `poll.interval.ms`).*
+    *Se deberia ver el registro de 'Juan Perez' después de unos segundos (según el `poll.interval.ms`).*
 
 -----
 
 ## 🔍 Verificación y Monitoreo
 
-Usa la API REST de Kafka Connect para verificar el estado de los conectores:
+Usar la API REST de Kafka Connect para verificar el estado de los conectores:
 
 ```bash
 # Listar todos los conectores activos
@@ -213,7 +213,7 @@ curl http://localhost:8083/connectors/sqlserver-source/status
 curl http://localhost:8083/connectors/postgres-sink/status
 ```
 
-Para depuración, los logs del contenedor de Kafka Connect son tu principal fuente de información:
+Para depuración, los logs del contenedor de Kafka Connect la principal fuente de información:
 
 ```bash
 docker logs -f tarea-1-kafka-connect-1
