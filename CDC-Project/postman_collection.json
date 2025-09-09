@@ -1,0 +1,171 @@
+{
+	"info": {
+		"_postman_id": "b2efe59a-15c6-4058-a612-4adc58049c56",
+		"name": "Kafka Connect",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40742345"
+	},
+	"item": [
+		{
+			"name": "CheckConnectors",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8083/connectors",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"connectors"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteConnector",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8083/connectors/sqlserver-source",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"connectors",
+						"sqlserver-source"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddConnector",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"\",\n  \"config\": {\n    \"connector.class\": \"\",\n    \"tasks.max\": \"\",\n    \"connection.url\": \"\",\n    \"connection.user\": \"\",\n    \"connection.password\": \"\",\n    //Para el source:\n    \"mode\": \"\",\n    \"incrementing.column.name\": \"\",\n    \"table.whitelist\": \"\",\n    \"topic.prefix\": \"\",\n    \"poll.interval.ms\": \"\",\n    //Para el sink:\n    \"auto.create\": \"\",\n    \"auto.evolve\": \"\",\n    \"delete.enabled\": \"\",\n    \"topics\": \"\",\n    \"table.name.format\": \"\"\n}\n\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8083/connectors",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"connectors"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "SourceConnector",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"sqlserver-source\",\n  \"config\": {\n    \"connector.class\": \"io.confluent.connect.jdbc.JdbcSourceConnector\",\n    \"tasks.max\": \"1\",\n    \"connection.url\": \"jdbc:sqlserver://sqlserver:1433;databaseName=BankingCore\",\n    \"connection.user\": \"sa\",\n    \"connection.password\": \"DummyPass123!\",\n    \"mode\": \"incrementing\",\n    \"incrementing.column.name\": \"ClientId\",\n    \"table.whitelist\": \"Clients\",\n    \"topic.prefix\": \"SQLServer_\",\n    \"poll.interval.ms\": 5000\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8083/connectors",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"connectors"
+							]
+						}
+					},
+					"_postman_previewlanguage": "",
+					"header": [],
+					"cookie": [
+						{
+							"expires": "Invalid Date",
+							"domain": "",
+							"path": ""
+						}
+					],
+					"body": ""
+				},
+				{
+					"name": "SinkConnector",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"postgres-sink\",\n  \"config\": {\n    \"connector.class\": \"io.confluent.connect.jdbc.JdbcSinkConnector\",\n    \"tasks.max\": \"1\",\n    \"connection.url\": \"jdbc:postgresql://postgres-sink:5432/postgres\",\n    \"connection.user\": \"sa\",\n    \"connection.password\": \"DummyPass123!\",\n    \"auto.create\": \"true\",\n    \"auto.evolve\": \"true\",\n    \"delete.enabled\": \"false\",\n    \"topics\": \"SQLServer_Clients\",\n    \"table.name.format\": \"clients_new\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8083/connectors",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"connectors"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				}
+			]
+		}
+	]
+}

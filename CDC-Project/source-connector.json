@@ -1,0 +1,15 @@
+{
+  "name": "sqlserver-source",
+  "config": {
+    "connector.class": "io.confluent.connect.jdbc.JdbcSourceConnector",
+    "tasks.max": "1",
+    "connection.url": "jdbc:sqlserver://sqlserver:1433;databaseName=BankingCore",
+    "connection.user": "sa",
+    "connection.password": "DummyPass123!",
+    "mode": "incrementing",
+    "incrementing.column.name": "ClientId",
+    "table.whitelist": "Clients",
+    "topic.prefix": "SQLServer_",
+    "poll.interval.ms": 5000
+  }
+}

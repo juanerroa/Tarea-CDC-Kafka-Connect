@@ -1,0 +1,30 @@
+# Datos de volúmenes Docker
+sqlserver_data/
+postgres_data/
+
+# Logs
+*.log
+logs/
+
+# Archivos temporales
+*.tmp
+*.temp
+
+# IDE y editores
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Configuraciones locales
+.env.local
+config.local.*
+
+# Datos sensibles
+secrets/
+*.key
+*.pem
