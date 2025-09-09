@@ -20,13 +20,16 @@ El caso de uso principal es la replicación de datos transaccionales, como una t
 El repositorio está organizado de la siguiente manera para facilitar el despliegue y la configuración:
 
 ```
-tarea-1/
+CDC-Project/
 ├─ docker-compose.yml        # Define y orquesta todos los servicios en contenedores.
+├─ db.init/                  # Guarda las tablas necesarias a crear en las bases de datos
+│  ├─ sqlserver.sql          # Tablas de SQL a crear para usar como fuente de datos par ala demostración
 ├─ connectors/
 │  ├─ sqlserver-source.json  # Configuración del conector de origen (SQL Server).
 │  └─ postgres-sink.json     # Configuración del conector de destino (PostgreSQL).
 ├─ init-connectors.bash      # Script para registrar los conectores en la API de Kafka Connect.
-└─ README.md                 # Esta guía de usuario.
+├─ postman_collection.json   # Colección de postman para gestionar los conectores (opcionalmente si no se usa Curl)
+└─ README.md                 # Doc
 ```
 
 Se incluye un archivo `.gitignore` para excluir archivos innecesarios y sensibles del control de versiones, tales como:
