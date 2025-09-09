@@ -1,6 +1,8 @@
 
 # 📖 Change Data Capture con SQL Server → Kafka → PostgreSQL
 
+![Sample](sample.gif)
+
 ## 🎯 Introducción y Propósito
 
 Este proyecto demuestra cómo replicar cambios en tiempo real desde una base de datos **SQL Server** hacia **PostgreSQL** utilizando **Apache Kafka** y **Kafka Connect**.
